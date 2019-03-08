@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Bookmark } from 'src/app/shared/bookmark.model';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { LocalStorageService } from 'src/app/shared/localstorage.service';
 
 @Component({
   selector: 'app-bookmark-add',
@@ -15,7 +15,7 @@ export class BookmarkAddComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private firestore: AngularFirestore
+    private localStorageService: LocalStorageService
   ) { }
 
   ngOnInit() {
@@ -39,11 +39,7 @@ export class BookmarkAddComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.bookmarkForm.status);
-    console.log(this.bookmarkForm.value);
-    const data = Object.assign({}, this.bookmarkForm.value);
-    delete data.id;
-    this.firestore.collection('bookmarks').add(data);
+    this.localStorageService.addTodo(this.bookmarkForm.value);
     this.setForm();
   }
 

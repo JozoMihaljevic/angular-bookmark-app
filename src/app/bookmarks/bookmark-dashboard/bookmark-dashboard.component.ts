@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { BookmarkService } from '../../shared/bookmark.service';
+import { LocalStorageService } from '../../shared/localstorage.service';
 import { Bookmark } from '../../shared/bookmark.model';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-bookmark-dashboard',
@@ -17,8 +16,7 @@ export class BookmarkDashboardComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private bookmarkService: BookmarkService,
-    private firestore: AngularFirestore) { }
+    private localStorageService: LocalStorageService) { }
 
   ngOnInit() {
     this.getNew();
@@ -46,31 +44,24 @@ export class BookmarkDashboardComponent implements OnInit {
   }
 
   getAll() {
-    this.bookmarkService.getBookmarks()
-      .subscribe(data => {
-        this.bookmarks = data.map(item => {
-          return {
-            id: item.payload.doc.id,
-            ...item.payload.doc.data()
-          } as Bookmark;
-        });
-        this.bookmarks.sort((a: Bookmark, b: Bookmark) => new Date(b.date).getTime() - new Date(a.date).getTime());
-      });
+    this.bookmarks = this.localStorageService.getBookmarks()
+      .sort((a: Bookmark, b: Bookmark) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    console.log(this.bookmarks);
 
   }
 
-  onDelete(id: string) {
-    if (confirm('Are you sure to delete this record?')) {
-      this.firestore.doc('bookmarks/' + id).delete();
-    }
-  }
+  // onDelete(id: string) {
+  //   if (confirm('Are you sure to delete this record?')) {
+  //     this.firestore.doc('bookmarks/' + id).delete();
+  //   }
+  // }
 
-  onSubmit() {
-    const data = Object.assign({}, this.bookmarkForm.value);
-    delete data.id;
-    this.firestore.doc('bookmarks/' + this.bookmarkForm.value.id).update(data);
-    this.isEdit = true;
-  }
+  // onSubmit() {
+  //   const data = Object.assign({}, this.bookmarkForm.value);
+  //   delete data.id;
+  //   this.firestore.doc('bookmarks/' + this.bookmarkForm.value.id).update(data);
+  //   this.isEdit = true;
+  // }
 
   editItem(item: Bookmark) {
     this.bookmark = item;

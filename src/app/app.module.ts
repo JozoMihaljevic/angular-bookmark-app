@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BookmarksComponent } from './bookmarks/bookmarks.component';
 import { BookmarkService } from './shared/bookmark.service';
+import { LocalStorageService } from './shared/localstorage.service';
 import { environment } from 'src/environments/environment';
 import { BookmarkDashboardComponent } from './bookmarks/bookmark-dashboard/bookmark-dashboard.component';
 import { DataFilterPipe } from './shared/data-filter.pipe';
@@ -30,7 +31,7 @@ import { BookmarkAddComponent } from './bookmarks/bookmark-add/bookmark-add.comp
     AngularFirestoreModule,
     AppRoutingModule
   ],
-  providers: [BookmarkService],
+  providers: [BookmarkService, LocalStorageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
