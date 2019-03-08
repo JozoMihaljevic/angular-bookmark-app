@@ -1,0 +1,65 @@
+<div [hidden]="!isEdit">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="form-inline pull-right">
+        <label>
+          Search Tags:
+          <input class="form-control form-control-sm border-input" type="search" [(ngModel)]="filterQuery">
+        </label>
+      </div>
+    </div>
+  </div>
+  <table class="table table-hover">
+    <thead>
+      <th>Site URL</th>
+      <th>Description</th>
+      <th>Tags</th>
+      <th>Visibility</th>
+      <th>DateCreated</th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of bookmarks | dataFilter : filterQuery: 'tags'">
+        <td><a class="btn btn-default" style="cursor: pointer;" (click)="goToSite(item.url)">{{item.url}}</a></td>
+        <td>{{item.description}}</td>
+        <td>{{item.tags}}</td>
+        <td>{{item.visibility}}</td>
+        <td>{{item.date}}</td>
+        <td><a class="btn text-danger" style="cursor: pointer;" (click)="editItem(item)"><i class="fa fa-edit"></i></a>
+        </td>
+        <td><a class="btn text-danger" style="cursor: pointer;" (click)="onDelete(item.id)"><i
+              class="fa fa-trash"></i></a></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="div" [hidden]="isEdit">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <h1>Edit bookmark</h1>
+      <form [formGroup]="bookmarkForm" (ngSubmit)="onSubmit()">
+        <input type="hidden" name="id" formControlName="id">
+        <div class="form-group">
+          <input name="url" class="form-control" placeholder="Site URL" required formControlName="url">
+        </div>
+        <div class="form-group">
+          <input name="description" class="form-control" placeholder="Description" formControlName="description">
+        </div>
+        <div class="form-group">
+          <input name="tags" class="form-control" placeholder="Tags" formControlName="tags">
+        </div>
+        <div class="form-group">
+          <input type="checkbox" value="" id="defaultCheck1" formControlName="visibility">
+          <label class="form-check-label" for="defaultCheck1">
+            Visibility
+          </label>
+        </div>
+        <div>
+          <button type="button" class="btn btn-info mr-2" (click)="onCancel()">Cancel</button>
+          <button type="submit" class="btn btn-info mr-2" [disabled]="!bookmarkForm.valid">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
