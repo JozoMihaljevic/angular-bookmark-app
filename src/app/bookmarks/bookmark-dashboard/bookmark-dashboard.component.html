@@ -1,4 +1,4 @@
-<div [hidden]="!isEdit">
+<div *ngIf="isEdit">
   <div class="row">
     <div class="col-md-12">
       <div class="form-inline pull-right">
@@ -34,7 +34,7 @@
     </tbody>
   </table>
 </div>
-<div class="div" [hidden]="isEdit">
+<div class="div" *ngIf="!isEdit">
   <div class="row">
     <div class="col-md-6 offset-md-3">
       <h1>Edit bookmark</h1>
@@ -56,8 +56,8 @@
           </label>
         </div>
         <div>
-          <button type="button" class="btn btn-info mr-2" (click)="onCancel()">Cancel</button>
-          <button type="submit" class="btn btn-info mr-2" [disabled]="!bookmarkForm.valid">Submit</button>
+          <button type="button" class="btn btn-info mr-2" (click)="isEdit=true">Cancel</button>
+          <button type="submit" class="btn btn-info mr-2" [disabled]="!bookmarkForm.valid">Save</button>
         </div>
       </form>
     </div>

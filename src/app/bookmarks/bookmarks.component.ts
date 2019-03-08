@@ -29,7 +29,7 @@ export class BookmarksComponent implements OnInit {
     });
   }
 
-  goToSite(url: string): void {
+  goToSite(url: string) {
     window.open('http://' + url, '_blank');
   }
 

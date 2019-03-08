@@ -3,7 +3,6 @@ import { BookmarkService } from '../../shared/bookmark.service';
 import { Bookmark } from '../../shared/bookmark.model';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-bookmark-dashboard',
@@ -55,15 +54,9 @@ export class BookmarkDashboardComponent implements OnInit {
             ...item.payload.doc.data()
           } as Bookmark;
         });
-        console.log(this.bookmarks);
         this.bookmarks.sort((a: Bookmark, b: Bookmark) => new Date(b.date).getTime() - new Date(a.date).getTime());
-        console.log(this.bookmarks);
       });
 
-  }
-
-  onCancel() {
-    this.isEdit = true;
   }
 
   onDelete(id: string) {
@@ -73,8 +66,6 @@ export class BookmarkDashboardComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.bookmarkForm.status);
-    console.log(this.bookmarkForm.value);
     const data = Object.assign({}, this.bookmarkForm.value);
     delete data.id;
     this.firestore.doc('bookmarks/' + this.bookmarkForm.value.id).update(data);
@@ -82,9 +73,7 @@ export class BookmarkDashboardComponent implements OnInit {
   }
 
   editItem(item: Bookmark) {
-    console.log(item);
     this.bookmark = item;
-    console.log(this.bookmark);
     this.setForm();
     this.isEdit = false;
   }

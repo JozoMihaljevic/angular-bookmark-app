@@ -12,7 +12,6 @@ import { BookmarkService } from './shared/bookmark.service';
 import { environment } from 'src/environments/environment';
 import { BookmarkDashboardComponent } from './bookmarks/bookmark-dashboard/bookmark-dashboard.component';
 import { DataFilterPipe } from './shared/data-filter.pipe';
-import { OrderByDatePipe } from './shared/order-by-date.pipe';
 import { BookmarkAddComponent } from './bookmarks/bookmark-add/bookmark-add.component';
 
 @NgModule({
@@ -21,7 +20,6 @@ import { BookmarkAddComponent } from './bookmarks/bookmark-add/bookmark-add.comp
     BookmarksComponent,
     BookmarkDashboardComponent,
     DataFilterPipe,
-    OrderByDatePipe,
     BookmarkAddComponent
   ],
   imports: [
