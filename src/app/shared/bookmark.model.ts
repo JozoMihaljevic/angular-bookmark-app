@@ -1,5 +1,4 @@
 export class Bookmark {
-  id: number;
   url: string;
   description: string;
   tags: string[];
@@ -7,7 +6,6 @@ export class Bookmark {
   date: Date;
 
   constructor() {
-    this.id = null;
     this.url = '';
     this.description = '';
     this.tags = [];

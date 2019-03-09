@@ -31,11 +31,11 @@ export class BookmarkDashboardComponent implements OnInit {
   setForm() {
     const reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
     this.bookmarkForm = this.fb.group({
-      id: new FormControl(this.bookmark.id),
       url: new FormControl(this.bookmark.url, [Validators.required, Validators.pattern(reg)]),
       description: new FormControl(this.bookmark.description, Validators.required),
       tags: new FormControl(this.bookmark.tags, Validators.required),
       visibility: new FormControl(this.bookmark.visibility),
+      date: new FormControl(this.bookmark.date),
     });
   }
 
@@ -46,22 +46,21 @@ export class BookmarkDashboardComponent implements OnInit {
   getAll() {
     this.bookmarks = this.localStorageService.getBookmarks()
       .sort((a: Bookmark, b: Bookmark) => new Date(b.date).getTime() - new Date(a.date).getTime());
-    console.log(this.bookmarks);
-
   }
 
-  // onDelete(id: string) {
-  //   if (confirm('Are you sure to delete this record?')) {
-  //     this.firestore.doc('bookmarks/' + id).delete();
-  //   }
-  // }
+  onDelete(date: Date) {
+    if (confirm('Are you sure to delete this record?')) {
+      this.localStorageService.deleteBookmark(date);
+    }
+    this.getAll();
+  }
 
-  // onSubmit() {
-  //   const data = Object.assign({}, this.bookmarkForm.value);
-  //   delete data.id;
-  //   this.firestore.doc('bookmarks/' + this.bookmarkForm.value.id).update(data);
-  //   this.isEdit = true;
-  // }
+  onSubmit() {
+    const data = Object.assign({}, this.bookmarkForm.value);
+    this.localStorageService.editBookmark(data);
+    this.getAll();
+    this.isEdit = true;
+  }
 
   editItem(item: Bookmark) {
     this.bookmark = item;

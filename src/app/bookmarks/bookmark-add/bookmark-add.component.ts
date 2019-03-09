@@ -39,7 +39,7 @@ export class BookmarkAddComponent implements OnInit {
   }
 
   onSubmit() {
-    this.localStorageService.addTodo(this.bookmarkForm.value);
+    this.localStorageService.addBookmark(this.bookmarkForm.value);
     this.setForm();
   }
 
