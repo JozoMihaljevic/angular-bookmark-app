@@ -25,7 +25,12 @@
         </td>
         <td>{{item.description}}</td>
         <td>{{item.tags}}</td>
-        <td>{{item.visibility}}</td>
+        <td *ngIf="item.visibility; else noVisibility" class="text-center">
+          <i class="fa fa-check text-success" aria-hidden="true"></i>
+        </td>
+        <ng-template #noVisibility>
+          <td class="text-center"><i class="fa fa-times text-danger"></i></td>
+        </ng-template>
         <td>{{item.date}}</td>
         <td><a class="btn text-danger" style="cursor: pointer;" (click)="editItem(item)"><i class="fa fa-edit"></i></a>
         </td>
