@@ -12,7 +12,8 @@
   </thead>
   <tbody>
     <tr *ngFor="let item of bookmarks | dataFilter : filterQuery: 'tags'">
-      <td><a class="btn btn-default" style="cursor: pointer;" (click)="goToSite(item.url)">{{item.url}}</a></td>
+      <td><a class="btn btn-outline-secondary" style="cursor: pointer;" (click)="goToSite(item.url)">{{item.url}}</a>
+      </td>
       <td>{{item.description}}</td>
       <td>{{item.tags}}</td>
     </tr>
