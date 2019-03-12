@@ -24,9 +24,7 @@ export function BookmarksReducer(state: Bookmarks = INITIAL_STATE, action: any):
     case Actions.BOOKMARKS_UPDATE:
       bookmarks = [...state.bookmarks];
       index = bookmarks.findIndex(({ id }) => id === action.payload.bookmark.id);
-      console.log(index);
       bookmarks[index] = action.payload.bookmark;
-      console.log(bookmarks);
       return Object.assign({}, state, { bookmarks });
 
     default:

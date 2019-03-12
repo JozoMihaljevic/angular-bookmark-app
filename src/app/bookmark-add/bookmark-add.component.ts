@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Bookmark } from '../../redux/model/bookmarks';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { Actions } from 'src/redux/actions/bookmark-actions';
 import { select } from '@angular-redux/store';
 import { Bookmarks } from 'src/redux/model/bookmarks';
@@ -13,11 +12,10 @@ import { Observable } from 'rxjs';
   styleUrls: ['./bookmark-add.component.css']
 })
 export class BookmarkAddComponent implements OnInit {
+  @select('bookmarks') public bookmarks$: Observable<Bookmarks>;
   bookmarkForm: FormGroup;
   bookmark: Bookmark;
   date = new Date().toISOString();
-  @select('bookmarks') public bookmarks$: Observable<Bookmarks>;
-  bookmarks = [];
 
   constructor(
     private fb: FormBuilder,
