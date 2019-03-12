@@ -24,7 +24,7 @@ export class BookmarkDashboardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.actions.getBookmarksDashboard();
+    this.actions.getBookmarks();
     this.getNew();
     this.bookmarks$.subscribe(res => {
       this.bookmarks = res.bookmarks;

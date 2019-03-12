@@ -19,7 +19,7 @@ export class BookmarksComponent implements OnInit {
   ngOnInit() {
     this.actions.getBookmarks();
     this.bookmarks$.subscribe(res => {
-      this.bookmarks = res.bookmarks;
+      this.bookmarks = res.bookmarks.filter(item => item.visibility === true);
     });
   }
 

@@ -24,25 +24,6 @@ export class Actions {
             id: item.payload.doc.id,
             ...item.payload.doc.data()
           } as Bookmark;
-        }).filter(item => item.visibility === true);
-        bookmarks.sort((a: Bookmark, b: Bookmark) => new Date(b.date).getTime() - new Date(a.date).getTime());
-        this.ngRedux.dispatch({
-          type: Actions.BOOKMARKS_GET,
-          payload: {
-            bookmarks
-          }
-        });
-      });
-  }
-
-  getBookmarksDashboard() {
-    this.firestore.collection('bookmarks').snapshotChanges()
-      .subscribe(data => {
-        const bookmarks = data.map(item => {
-          return {
-            id: item.payload.doc.id,
-            ...item.payload.doc.data()
-          } as Bookmark;
         });
         bookmarks.sort((a: Bookmark, b: Bookmark) => new Date(b.date).getTime() - new Date(a.date).getTime());
         this.ngRedux.dispatch({
