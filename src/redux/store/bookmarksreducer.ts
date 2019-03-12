@@ -6,26 +6,28 @@ const INITIAL_STATE: Bookmarks = {
 };
 
 export function BookmarksReducer(state: Bookmarks = INITIAL_STATE, action: any): any {
-  let list, index;
+  let bookmarks, index;
 
   switch (action.type) {
     case Actions.BOOKMARKS_GET:
       return Object.assign({}, state, { bookmarks: action.payload.bookmarks });
 
     case Actions.BOOKMARKS_DELETE:
-      list = state.bookmarks
+      bookmarks = state.bookmarks
         .filter(({ id }) => id !== action.payload.id);
-      return Object.assign({}, state, { list });
+      return Object.assign({}, state, { bookmarks });
 
     case Actions.BOOKMARKS_ADD:
       state.bookmarks.push(action.payload.bookmark);
       return state;
 
     case Actions.BOOKMARKS_UPDATE:
-      list = [...state.bookmarks];
-      index = list.findIndex(({ id }) => id === action.payload.bookmark.id);
-      list[index] = action.payload.bookmark;
-      return Object.assign({}, state, { list });
+      bookmarks = [...state.bookmarks];
+      index = bookmarks.findIndex(({ id }) => id === action.payload.bookmark.id);
+      console.log(index);
+      bookmarks[index] = action.payload.bookmark;
+      console.log(bookmarks);
+      return Object.assign({}, state, { bookmarks });
 
     default:
       return state;

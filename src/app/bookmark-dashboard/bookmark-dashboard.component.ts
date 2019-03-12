@@ -16,6 +16,7 @@ export class BookmarkDashboardComponent implements OnInit {
   bookmark: Bookmark;
   bookmarks = [];
   bookmarkForm: FormGroup;
+  date = new Date().toISOString();
   isEdit = true;
 
   constructor(
@@ -53,8 +54,7 @@ export class BookmarkDashboardComponent implements OnInit {
 
   onSubmit() {
     const bookmark = Object.assign({}, this.bookmarkForm.value);
-    delete bookmark.id;
-    this.actions.updateBookmark(bookmark, this.bookmarkForm.value.id);
+    this.actions.updateBookmark(bookmark);
     this.isEdit = true;
   }
 

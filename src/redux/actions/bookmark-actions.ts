@@ -43,8 +43,8 @@ export class Actions {
     });
   }
 
-  updateBookmark(bookmark: Bookmark, id: string) {
-    this.firestore.doc('bookmarks/' + id).update(bookmark);
+  updateBookmark(bookmark: Bookmark) {
+    this.firestore.doc('bookmarks/' + bookmark.id).update(bookmark);
     this.ngRedux.dispatch({
       type: Actions.BOOKMARKS_UPDATE,
       payload: { bookmark }
