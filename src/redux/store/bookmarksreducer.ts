@@ -10,12 +10,18 @@ export function BookmarksReducer(state: Bookmarks = INITIAL_STATE, action: any):
 
   switch (action.type) {
     case Actions.BOOKMARKS_GET:
-      return Object.assign({}, state, { bookmarks: action.payload.bookmarks });
+      return {
+        ...state,
+        bookmarks: action.payload.bookmarks
+      };
 
     case Actions.BOOKMARKS_DELETE:
       bookmarks = state.bookmarks
         .filter(({ id }) => id !== action.payload.id);
-      return Object.assign({}, state, { bookmarks });
+      return {
+        ...state,
+        bookmarks
+      };
 
     case Actions.BOOKMARKS_ADD:
       state.bookmarks.push(action.payload.bookmark);
@@ -25,7 +31,10 @@ export function BookmarksReducer(state: Bookmarks = INITIAL_STATE, action: any):
       bookmarks = [...state.bookmarks];
       index = bookmarks.findIndex(({ id }) => id === action.payload.bookmark.id);
       bookmarks[index] = action.payload.bookmark;
-      return Object.assign({}, state, { bookmarks });
+      return {
+        ...state,
+        bookmarks
+      };
 
     default:
       return state;
