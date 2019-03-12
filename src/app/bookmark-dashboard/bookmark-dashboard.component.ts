@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { BookmarkService } from '../../shared/bookmark.service';
-import { Bookmark } from '../../shared/bookmark.model';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { Actions } from 'src/redux/actions/bookmark-actions';
+import { select } from '@angular-redux/store';
+import { Bookmarks } from '../../redux/model/bookmarks';
+import { Bookmark } from '../../redux/model/bookmarks';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-bookmark-dashboard',
@@ -10,19 +12,23 @@ import { AngularFirestore } from '@angular/fire/firestore';
   styleUrls: ['./bookmark-dashboard.component.css']
 })
 export class BookmarkDashboardComponent implements OnInit {
-  bookmarkForm: FormGroup;
-  bookmarks: Bookmark[];
+  @select('bookmarks') public bookmarks$: Observable<Bookmarks>;
   bookmark: Bookmark;
+  bookmarks = [];
+  bookmarkForm: FormGroup;
   isEdit = true;
 
   constructor(
-    private fb: FormBuilder,
-    private bookmarkService: BookmarkService,
-    private firestore: AngularFirestore) { }
+    private actions: Actions,
+    private fb: FormBuilder
+  ) { }
 
   ngOnInit() {
+    this.actions.getBookmarksDashboard();
     this.getNew();
-    this.getAll();
+    this.bookmarks$.subscribe(res => {
+      this.bookmarks = res.bookmarks;
+    });
   }
 
   getNew() {
@@ -33,7 +39,7 @@ export class BookmarkDashboardComponent implements OnInit {
   setForm() {
     const reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
     this.bookmarkForm = this.fb.group({
-      id: new FormControl(this.bookmark.id),
+      id: new FormControl(this.bookmark.id, Validators.required),
       url: new FormControl(this.bookmark.url, [Validators.required, Validators.pattern(reg)]),
       description: new FormControl(this.bookmark.description, Validators.required),
       tags: new FormControl(this.bookmark.tags, Validators.required),
@@ -45,30 +51,10 @@ export class BookmarkDashboardComponent implements OnInit {
     window.open('http://' + url, '_blank');
   }
 
-  getAll() {
-    this.bookmarkService.getBookmarks()
-      .subscribe(data => {
-        this.bookmarks = data.map(item => {
-          return {
-            id: item.payload.doc.id,
-            ...item.payload.doc.data()
-          } as Bookmark;
-        });
-        this.bookmarks.sort((a: Bookmark, b: Bookmark) => new Date(b.date).getTime() - new Date(a.date).getTime());
-      });
-
-  }
-
-  onDelete(id: string) {
-    if (confirm('Are you sure to delete this record?')) {
-      this.firestore.doc('bookmarks/' + id).delete();
-    }
-  }
-
   onSubmit() {
-    const data = Object.assign({}, this.bookmarkForm.value);
-    delete data.id;
-    this.firestore.doc('bookmarks/' + this.bookmarkForm.value.id).update(data);
+    const bookmark = Object.assign({}, this.bookmarkForm.value);
+    delete bookmark.id;
+    this.actions.updateBookmark(bookmark, this.bookmarkForm.value.id);
     this.isEdit = true;
   }
 

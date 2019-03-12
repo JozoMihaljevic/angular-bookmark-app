@@ -1,3 +1,7 @@
+export interface Bookmarks {
+  bookmarks: Bookmark[];
+}
+
 export class Bookmark {
   id: string;
   url: string;

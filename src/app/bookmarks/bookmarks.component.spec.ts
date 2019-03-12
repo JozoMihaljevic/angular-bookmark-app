@@ -8,9 +8,9 @@ describe('BookmarksComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BookmarksComponent ]
+      declarations: [BookmarksComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

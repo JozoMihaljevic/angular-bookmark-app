@@ -2,35 +2,54 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AppRoutingModule } from './app-routing.module';
 
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AppComponent } from './app.component';
-import { BookmarksComponent } from './bookmarks/bookmarks.component';
-import { BookmarkService } from './shared/bookmark.service';
-import { environment } from 'src/environments/environment';
-import { BookmarkDashboardComponent } from './bookmarks/bookmark-dashboard/bookmark-dashboard.component';
 import { DataFilterPipe } from './shared/data-filter.pipe';
-import { BookmarkAddComponent } from './bookmarks/bookmark-add/bookmark-add.component';
+import { HttpClientModule } from '@angular/common/http';
+import { NgRedux, NgReduxModule, DevToolsExtension } from '@angular-redux/store';
+import { rootReducer, IAppState } from '../redux/store';
+import { Actions } from 'src/redux/actions/bookmark-actions';
+import { environment } from 'src/environments/environment';
+import { BookmarksComponent } from './bookmarks/bookmarks.component';
+import { BookmarkDashboardComponent } from './bookmark-dashboard/bookmark-dashboard.component';
+import { BookmarkAddComponent } from './bookmark-add/bookmark-add.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    DataFilterPipe,
     BookmarksComponent,
     BookmarkDashboardComponent,
-    DataFilterPipe,
     BookmarkAddComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
+    AppRoutingModule,
+    NgReduxModule,
+    HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
-    AppRoutingModule
   ],
-  providers: [BookmarkService],
+  providers: [Actions],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(
+    private ngRedux: NgRedux<IAppState>,
+    private devTool: DevToolsExtension
+  ) {
+
+    this.ngRedux.configureStore(
+      rootReducer,
+      {} as IAppState,
+      [],
+      [this.devTool.isEnabled() ? this.devTool.enhancer() : f => f]
+    );
+
+  }
+}

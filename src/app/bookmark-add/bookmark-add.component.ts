@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Bookmark } from 'src/app/shared/bookmark.model';
+import { Bookmark } from '../../redux/model/bookmarks';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { Actions } from 'src/redux/actions/bookmark-actions';
+import { select } from '@angular-redux/store';
+import { Bookmarks } from 'src/redux/model/bookmarks';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-bookmark-add',
@@ -12,10 +16,12 @@ export class BookmarkAddComponent implements OnInit {
   bookmarkForm: FormGroup;
   bookmark: Bookmark;
   date = new Date().toISOString();
+  @select('bookmarks') public bookmarks$: Observable<Bookmarks>;
+  bookmarks = [];
 
   constructor(
     private fb: FormBuilder,
-    private firestore: AngularFirestore
+    private actions: Actions,
   ) { }
 
   ngOnInit() {
@@ -39,11 +45,9 @@ export class BookmarkAddComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.bookmarkForm.status);
-    console.log(this.bookmarkForm.value);
-    const data = Object.assign({}, this.bookmarkForm.value);
-    delete data.id;
-    this.firestore.collection('bookmarks').add(data);
+    const bookmark = Object.assign({}, this.bookmarkForm.value);
+    delete bookmark.id;
+    this.actions.addBookmark(bookmark);
     this.setForm();
   }
 

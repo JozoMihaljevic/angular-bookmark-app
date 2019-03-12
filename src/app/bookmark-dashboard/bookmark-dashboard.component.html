@@ -34,7 +34,7 @@
         <td>{{item.date}}</td>
         <td><a class="btn text-danger" style="cursor: pointer;" (click)="editItem(item)"><i class="fa fa-edit"></i></a>
         </td>
-        <td><a class="btn text-danger" style="cursor: pointer;" (click)="onDelete(item.id)"><i
+        <td><a class="btn text-danger" style="cursor: pointer;" (click)="actions.deleteBookmark(item.id)"><i
               class="fa fa-trash"></i></a></td>
       </tr>
     </tbody>
