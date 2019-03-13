@@ -14,8 +14,8 @@ import { rootReducer, IAppState } from '../redux/store';
 import { Actions } from 'src/redux/actions/bookmark-actions';
 import { environment } from 'src/environments/environment';
 import { BookmarksComponent } from './bookmarks/bookmarks.component';
-import { BookmarkDashboardComponent } from './bookmark-dashboard/bookmark-dashboard.component';
-import { BookmarkAddComponent } from './bookmark-add/bookmark-add.component';
+import { BookmarkDashboardComponent } from './bookmarks/bookmark-dashboard/bookmark-dashboard.component';
+import { BookmarkAddComponent } from './bookmarks/bookmark-add/bookmark-add.component';
 
 @NgModule({
   declarations: [

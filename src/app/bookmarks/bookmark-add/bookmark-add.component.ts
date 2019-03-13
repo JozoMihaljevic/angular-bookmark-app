@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Bookmark } from '../../redux/model/bookmarks';
+import { Bookmark } from '../../../redux/model/bookmarks';
 import { Actions } from 'src/redux/actions/bookmark-actions';
 import { select } from '@angular-redux/store';
 import { Bookmarks } from 'src/redux/model/bookmarks';
